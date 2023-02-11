@@ -12,7 +12,7 @@ module.exports = {
                 method: method,
                 url: url
             });
-            console.log(response.data.data);
+            console.info({ url: url, response: response.data.data });
             return response.data.data;
         } catch (error) {
             console.error(error);
