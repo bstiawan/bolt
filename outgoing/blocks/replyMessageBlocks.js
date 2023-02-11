@@ -1,5 +1,5 @@
 module.exports = {
-    conversationReply: (data) => {
+    replyMessageBlocks: (data) => {
 
         const details_blocks = [
             {
@@ -68,7 +68,7 @@ module.exports = {
                 "element": {
                     "type": "plain_text_input",
                     "multiline": true,
-                    "action_id": "write_reply"
+                    "action_id": "reply_message"
                 },
                 "label": {
                     "type": "plain_text",

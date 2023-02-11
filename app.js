@@ -2,9 +2,10 @@ const { App, LogLevel } = require('@slack/bolt');
 require('dotenv').config();
 
 const actions = require('./incoming/actions');
+const views = require('./incoming/views');
 const { hello } = require('./incoming/message/messages');
 
-const { messageFromPartner } = require('./outgoing/message/outgoingMessages');
+const message = require('./outgoing/message');
 
 // Initializes your app with your bot token and signing secret
 const app = new App({
@@ -26,11 +27,14 @@ const app = new App({
 
 
 // Listens to incoming messages
-app.message('hello', hello);
+app.message('hello', message.messageFromPartner);
 
 // Listens to actions
 app.action({ block_id: 'message_action', action_id: 'reply_message' }, actions.replyMessage);
 app.action({ block_id: 'message_action', action_id: 'ignore_message' }, actions.ignoreMessage);
+
+// Listens to view submissions
+app.view({ callback_id: "reply_message" }, views.submitReplyMessage);
 
 app.error((error) => {
   // Check the details of the error to handle cases where you should retry sending a message or stop the app
