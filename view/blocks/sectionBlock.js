@@ -1,14 +1,14 @@
 module.exports = {
-    errorBlocks: (text) => {
-        const loading = [
+    sectionBlock: (text) => {
+        const section = [
             {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": `Error: ${text}`
+                    "text": text
                 }
             }
         ]
-        return loading;
+        return section;
     }
 }

@@ -1,11 +1,16 @@
-const { App, LogLevel } = require('@slack/bolt');
+const { App, LogLevel, ExpressReceiver } = require('@slack/bolt');
+const bodyParser = require('body-parser')
 require('dotenv').config();
 
-const actions = require('./incoming/actions');
-const views = require('./incoming/views');
-const { hello } = require('./incoming/message/messages');
+const actions = require('./controller/actions');
+const views = require('./controller/views');
+const message = require('./controller/message');
+const webhook = require('./controller/webhook');
 
-const message = require('./outgoing/message');
+// Handles custom routes
+const receiver = new ExpressReceiver({ signingSecret: process.env.SLACK_SIGNING_SECRET })
+receiver.router.use(bodyParser.urlencoded({ extended: true }))
+receiver.router.use(bodyParser.json())
 
 // Initializes your app with your bot token and signing secret
 const app = new App({
@@ -13,18 +18,8 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   socketMode: false,
   logLevel: LogLevel.INFO,
-  customRoutes: [
-    {
-      path: '/',
-      method: ['GET'],
-      handler: (req, res) => {
-        res.writeHead(200);
-        res.end('Health check information displayed here!');
-      },
-    },
-  ],
+  receiver
 });
-
 
 // Listens to incoming messages
 app.message('hello', message.messageFromPartner);
@@ -40,6 +35,10 @@ app.error((error) => {
   // Check the details of the error to handle cases where you should retry sending a message or stop the app
   console.error(error);
 });
+
+// Listens to incoming webhooks
+receiver.router.get('/', (req, res) => { res.end('Ok'); });
+receiver.router.post('/notes', (req, res) => { res.end('Ok'); webhook.notesWebhook(req, app) });
 
 (async () => {
   // Start your app

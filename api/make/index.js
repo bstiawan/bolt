@@ -2,6 +2,7 @@ const axios = require("axios");
 
 module.exports = {
     getUserToken: async function (email) {
+        console.log("Start getUserToken: " + email)
         try {
             const response = await axios({
                 method: "get",
@@ -12,8 +13,8 @@ module.exports = {
                     "apikey": process.env.MAKE_API_KEY
                 }
             });
-            // console.info({ url: url, response: response.data.data });
-            return response.data.data;
+            // console.info("Success getUserToken: ", response.data);
+            return response.data;
         } catch (error) {
             console.error(error);
         }

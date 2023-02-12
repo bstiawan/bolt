@@ -1,13 +1,11 @@
 const { replyMessageBlocks } = require('./replyMessageBlocks');
 const { messageIgnored } = require('./messageIgnored');
-const { loading } = require('./loading');
-const { errorBlocks } = require('./errorBlocks');
+const { sectionBlock } = require('./sectionBlock');
 
 const blocks = {
     replyMessageBlocks,
     messageIgnored,
-    loading,
-    errorBlocks
+    sectionBlock
 }
 
 module.exports = blocks;
