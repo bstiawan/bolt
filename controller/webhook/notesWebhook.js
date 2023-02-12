@@ -63,7 +63,7 @@ module.exports = {
             });
         }
 
-        console.log(blocks)
+        // console.log(blocks)
 
         app.client.chat.postMessage({
             channel: process.env.SLACK_CHANNEL_FOR_NOTES,
