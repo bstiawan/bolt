@@ -1,7 +1,5 @@
 const { submitReplyMessage } = require('./submitReplyMessage');
 
-const views = {
+module.exports = {
     submitReplyMessage
-}
-
-module.exports = views;
+};

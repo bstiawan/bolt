@@ -1,7 +1,5 @@
 const { notesWebhook } = require('./notesWebhook');
 
-const webhook = {
+module.exports = {
     notesWebhook
-}
-
-module.exports = webhook;
+};

@@ -6,6 +6,7 @@ const actions = require('./controller/actions');
 const views = require('./controller/views');
 const message = require('./controller/message');
 const webhook = require('./controller/webhook');
+const event = require('./controller/event');
 
 // Handles custom routes
 const receiver = new ExpressReceiver({ signingSecret: process.env.SLACK_SIGNING_SECRET })
@@ -21,28 +22,32 @@ const app = new App({
   receiver
 });
 
-// Listens to incoming messages
-app.message('hello', message.messageFromPartner);
-
-// Listens to actions
-app.action({ block_id: 'message_action', action_id: 'reply_message' }, actions.replyMessage);
-app.action({ block_id: 'message_action', action_id: 'ignore_message' }, actions.ignoreMessage);
-
-// Listens to view submissions
-app.view({ callback_id: "reply_message" }, views.submitReplyMessage);
-
-app.error((error) => {
-  // Check the details of the error to handle cases where you should retry sending a message or stop the app
-  console.error(error);
-});
-
-// Listens to incoming webhooks
-receiver.router.get('/', (req, res) => { res.end('Ok'); });
-receiver.router.post('/notes', (req, res) => { res.end('Ok'); webhook.notesWebhook(req, app) });
-
 (async () => {
   // Start your app
   await app.start(process.env.PORT || 3000);
 
   console.log('⚡️ Bolt app is running!');
 })();
+// Listens to incoming webhooks
+receiver.router.get('/', (req, res) => { res.end('Ok'); });
+// receiver.router.post('/webhook', (req, res) => { res.end('Ok'); webhook.notesWebhook(req, app) });
+
+// // Listens to incoming messages
+app.message('', message.messageRouter);
+
+// Listens to events
+app.event('app_mention', event.appMention);
+
+// Listens to errors
+app.error((error) => {
+  // Check the details of the error to handle cases where you should retry sending a message or stop the app
+  console.error(error);
+});
+
+
+// // Listens to actions
+// app.action({ block_id: 'message_action', action_id: 'reply_message' }, actions.replyMessage);
+// app.action({ block_id: 'message_action', action_id: 'ignore_message' }, actions.ignoreMessage);
+
+// // Listens to view submissions
+// app.view({ callback_id: "reply_message" }, views.submitReplyMessage);

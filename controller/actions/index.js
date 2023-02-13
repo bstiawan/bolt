@@ -1,9 +1,7 @@
 const { replyMessage } = require('./replyMessage');
 const { ignoreMessage } = require('./ignoreMessage');
 
-const actions = {
+module.exports = {
     replyMessage,
     ignoreMessage
-}
-
-module.exports = actions;
+};

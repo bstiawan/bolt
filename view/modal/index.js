@@ -1,10 +1,8 @@
 const { submit, close } = require('./modalActions');
 const { title } = require('./modalTitle');
 
-const modalBuilder = {
+module.exports = {
     submit,
     close,
     title
-}
-
-module.exports = modalBuilder;
+};

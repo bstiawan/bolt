@@ -10,7 +10,8 @@ module.exports = {
                 url: "/geqh22x29b1w21bgkujadye7fk9zw7p3",
                 params: {
                     "email": email,
-                    "apikey": process.env.MAKE_API_KEY
+                    "apikey": process.env.MAKE_API_KEY,
+                    "server": process.env.NODE_ENV
                 }
             });
             // console.info("Success getUserToken: ", response.data);
