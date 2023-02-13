@@ -14,6 +14,7 @@ module.exports = {
             prompt: text,
             max_tokens: 50,
             user: user,
+            stop: [" Question:", " Answer:"]
         });
 
         console.log("openai", completion.data.choices[0].text);
