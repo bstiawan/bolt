@@ -9,7 +9,7 @@ module.exports = {
         // If has thread_ts, it's a reply
         if (event.thread_ts) {
             threadReplyMessage({ event, say, logger, body, client });
-        } else if (event.channel_type === 'im') {
+        } else if (!event.thread_ts && event.channel_type === 'im') {
             eventController.appMention({ event, say, logger, body });
         } else {
             logger.info(body)
