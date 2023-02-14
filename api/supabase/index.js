@@ -8,18 +8,24 @@ module.exports = {
             .from('users')
             .select()
             .eq('team_id', team_id)
-        console.log("supabase fetchTeam", data, error)
+        console.log("[Supabase] fetchTeam", data[0].team_id, data[0].activated, data[0].credit)
 
         if (data.length === 0 || error) {
+            console.log("[Supabase] fetchTeam", error)
             return data[0];
         }
         return data[0];
     },
-    upsertTeam: async (team_id) => {
+    upsertTeam: async (payload) => {
         const { data, error } = await supabaseClient
             .from('users')
-            .upsert({ team_id: team_id })
+            .upsert(payload, { onConflict: 'team_id' })
             .select()
-        console.log("supabase upsertTeam", data, error)
+        console.log("[Supabase] upsertTeam", data[0].team_id, data[0].activated, data[0].credit)
+        if (data.length === 0 || error) {
+            console.log("[Supabase] upsertTeam", error)
+            return data[0];
+        }
+        return data[0];
     }
 }

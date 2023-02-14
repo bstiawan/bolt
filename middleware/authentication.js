@@ -2,24 +2,55 @@ const supabase = require('../api/supabase');
 
 module.exports = {
     authentication: async ({ payload, client, context, next, logger }) => {
-        logger.info('authentication', payload);
+        logger.info('authentication', payload.user, payload.team);
         const slackUserId = payload.user;
-        const helpChannelId = 'general';
 
-        // Assume we have a function that accepts a Slack user ID to find user details from Acme
         try {
-            // Assume we have a function that can take a Slack user ID as input to find user details from the provider
             const user = await supabase.fetchTeam(payload.team);
-
-            // When the user lookup is successful, add the user details to the context
-            logger.info('authentication user', user);
 
             if (!user) {
                 // This user wasn't found in Acme. Send them an error and don't continue processing request
                 await client.chat.postEphemeral({
                     channel: payload.channel,
                     user: slackUserId,
-                    text: `The remaining quota for this team is 0. Purchase additional quota?`,
+                    text: `Your team hasn't been activated. Go to <slack://app?team=${payload.team}&id=${process.env.SLACK_APP_ID}&tab=home|home page> to activate and start using the app.`,
+                    blocks: [
+                        {
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": "Your team hasn't been activated. Go to home page to activate and start using the app."
+                            }
+                        },
+                        {
+                            "type": "divider"
+                        },
+                        {
+                            "type": "actions",
+                            "elements": [
+                                {
+                                    "type": "button",
+                                    "style": "primary",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "Go to home page",
+                                        "emoji": true
+                                    },
+                                    "value": payload.team,
+                                    "action_id": "go_to_app_home",
+                                    "url": `slack://app?team=${payload.team}&id=${process.env.SLACK_APP_ID}&tab=home`
+                                }
+                            ]
+                        }
+                    ]
+                });
+                return;
+            } else if (user && user.credit <= 0) {
+                // No credit left
+                await client.chat.postEphemeral({
+                    channel: payload.channel,
+                    user: slackUserId,
+                    text: `The remaining credit for this team is 0. Buy more credit?`,
                     blocks: [
                         {
                             "type": "section",
@@ -70,12 +101,15 @@ module.exports = {
                         }
                     ]
                 });
-                return;
+            } else if (user && user.credit > 0) {
+                // Continue but deduct 1 credit
+                await supabase.upsertTeam({ team_id: payload.team, credit: user.credit - 1 });
             }
+
+            // When the user lookup is successful, add the user details to the context
             context.user = user;
         } catch (error) {
             logger.info('authentication error', error);
-            // This user wasn't found in Acme. Send them an error and don't continue processing request
             await client.chat.postEphemeral({
                 channel: payload.channel,
                 user: slackUserId,
@@ -84,7 +118,7 @@ module.exports = {
             return;
 
             // Pass control to previous middleware (if any) or the global error handler
-            throw error;
+            // throw error;
         }
 
         // Pass control to the next middleware (if there are any) and the listener functions

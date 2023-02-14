@@ -36,10 +36,11 @@ receiver.router.get('/', (req, res) => { res.end('Ok'); });
 // receiver.router.post('/webhook', (req, res) => { res.end('Ok'); webhook.notesWebhook(req, app) });
 
 // // Listens to incoming messages
-app.message(middleware.authentication, message.messageRouter);
+app.message(middleware.noOrphanMessage, middleware.authentication, message.messageRouter);
 
 // Listens to events
-app.event('app_mention', event.appMention);
+app.event('app_mention', middleware.authentication, event.appMention);
+app.event('app_home_opened', event.appHomeOpened);
 
 // Listens to errors
 app.error((error) => {
@@ -51,7 +52,7 @@ app.error((error) => {
 
 
 // // Listens to actions
-// app.action({ block_id: 'message_action', action_id: 'reply_message' }, actions.replyMessage);
+app.action({ block_id: 'team_action', action_id: 'activate_team' }, actions.activateTeam);
 // app.action({ block_id: 'message_action', action_id: 'ignore_message' }, actions.ignoreMessage);
 
 // // Listens to view submissions

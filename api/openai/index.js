@@ -5,21 +5,20 @@ const openai = new OpenAIApi(configuration);
 
 module.exports = {
     completion: async (text, body) => {
-        console.info("openai", "completion", body.event.user, body.team_id)
+        console.log("[OpenAI]", "completion", body.event.user, body.team_id)
 
-        // Send request to openai
-        console.info("openai", text)
-        // const completion = await openai.createCompletion({
-        //     model: "text-davinci-003",
-        //     prompt: text,
-        //     max_tokens: 50,
-        //     user: `${body.team_id}/${body.event.user}`,
-        //     stop: [" Question:", " Answer:"]
-        // });
+        // Send request to OpenAI
+        // console.info("[OpenAI]", text)
+        const completion = await openai.createCompletion({
+            model: "text-davinci-003",
+            prompt: "Act as a person with super accurate knowledge based on facts. Answer questions given with interactive, casual and sometimes joking." + text,
+            max_tokens: 300,
+            user: `${body.team_id}/${body.event.user}`,
+        });
 
-        const reply = "completion.data.choices[0].text";
+        const reply = completion.data.choices[0].text.trim();
 
-        console.log("openai", reply);
+        console.log("[OpenAI]", reply, completion.data.usage.total_tokens);
         return reply;
     }
 }
