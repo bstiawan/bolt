@@ -16,7 +16,7 @@ module.exports = {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": "Great to see you here! WhatGPT enables you to ask question directly from Slack. These are just a few things which you will be able to do:"
+                        "text": "Great to see you here! \nWhatGPT allows you to ask question directly in Slack and get answer. These are just a few things which you will be able to do:"
                     }
                 },
                 {
@@ -33,7 +33,7 @@ module.exports = {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `🎉 Your team is activated and you have *${credit}* credits. You can use these credits to ask questions. If you run out of credits, you can buy more credits. You can also apply credits to your team.`
+                        "text": `🎉 Your team is activated and you have *${credit}* credits. You can use these credits to ask questions. You can buy more credits and apply it below.`
                     }
                 },
                 {

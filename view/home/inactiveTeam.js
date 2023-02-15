@@ -33,7 +33,7 @@ module.exports = {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": "But before you can do all these amazing things, we need you to activate your team. Simply click the button below:"
+                        "text": "But before you can do all these amazing things, we need you to activate your team. Simply click the button below to get your free credits and start asking questions."
                     }
                 },
                 {

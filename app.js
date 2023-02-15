@@ -33,7 +33,7 @@ const app = new App({
 
 // Listens to incoming webhooks
 receiver.router.get('/', (req, res) => { res.end('Ok'); });
-// receiver.router.post('/webhook', (req, res) => { res.end('Ok'); webhook.notesWebhook(req, app) });
+receiver.router.post('/webhook/lemonsqueezy', (req, res) => { res.end('Ok'); webhook.lemonSqueezy(req, app) });
 
 // // Listens to incoming messages
 app.message(middleware.noOrphanMessage, middleware.authentication, message.messageRouter);
@@ -48,12 +48,12 @@ app.error((error) => {
   console.error(error);
 });
 
-// TODO: Add team to database when added to workspace
-
-
 // // Listens to actions
 app.action({ block_id: 'team_action', action_id: 'activate_team' }, actions.activateTeam);
+app.action({ block_id: 'team_action', action_id: 'apply_credit' }, actions.applyCredit);
+app.action({ block_id: 'team_action', action_id: 'buy_credit' }, actions.buyCredit);
+app.action({ block_id: 'home_button', action_id: 'go_to_app_home' }, actions.buyCredit);
 // app.action({ block_id: 'message_action', action_id: 'ignore_message' }, actions.ignoreMessage);
 
 // // Listens to view submissions
-// app.view({ callback_id: "reply_message" }, views.submitReplyMessage);
+app.view({ callback_id: "apply_credit" }, views.submitApplyCredit);

@@ -11,7 +11,7 @@ module.exports = {
         const upsert = await supabase.upsertTeam({
             team_id: body.user.team_id,
             activated: true,
-            credit: 100
+            credit: +10
         });
 
         const data = {

@@ -1,4 +1,5 @@
 const openai = require('../../api/openai');
+const message = require('../../view/message');
 
 module.exports = {
     appMention: async ({ event, say, logger, body }) => {
@@ -8,19 +9,7 @@ module.exports = {
         const response = await openai.completion(event.text, body);
 
         try {
-            await say({
-                thread_ts: event.ts,
-                text: response,
-                "blocks": [
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": response
-                        }
-                    }
-                ]
-            });
+            await say(response);
         }
         catch (error) {
             console.error(error);

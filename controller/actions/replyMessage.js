@@ -56,7 +56,6 @@ module.exports = {
 
     // Get data from API
     // Get email from slack
-    // TODO : Pass user ID instead, and get email from API, cache the entire data
     const email = await client.users.info({ user: body.user.id });
 
     // Add to private_metadata
