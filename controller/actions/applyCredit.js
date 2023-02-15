@@ -15,7 +15,7 @@ module.exports = {
         };
 
         try {
-            const result = await client.views.open({
+            await client.views.open({
                 // Pass a valid trigger_id within 3 seconds of receiving it
                 trigger_id: body.trigger_id,
                 // View payload
