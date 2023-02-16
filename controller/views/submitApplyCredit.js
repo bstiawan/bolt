@@ -1,5 +1,5 @@
 const supabase = require('../../api/supabase');
-const lemonsqueezy = require('../../api/lemonsqueezy');
+const gumroad = require('../../api/gumroad');
 
 module.exports = {
     submitApplyCredit: async ({ body, ack, logger, client }) => {
@@ -14,23 +14,30 @@ module.exports = {
         await ack();
 
         // Check if code is valid
-        const activate = await lemonsqueezy.activate(key, team);
+        const license = await gumroad.verifyLicense(key, team);
         // Retrieve licence key
 
         // If activated
-        if (activate.activated) {
-
-            const credit = activate.meta.variant_name.split(" ")[0];
+        if (license.uses === 1) {
 
             // Retrieve team from database
             const user = await supabase.fetchTeam(team);
-            // // Store licence key in database and associate with team
 
             //Upsert team credit
+            const credit = license.meta.variant_name.replace('(', '').split(" ")[0];
             const upsert = await supabase.upsertTeam({
                 team_id: team,
                 domain: domain,
                 credit: +user.credit + +credit,
+            });
+
+            // Insert licence key in database
+            await supabase.insertLicense({
+                id: key,
+                email: license.purchase.email,
+                variants: license.purchase.variants,
+                team_id: team,
+                user_id: body.user.id,
             });
 
             // Send direct message to user that code is successfully applied
@@ -42,7 +49,7 @@ module.exports = {
             // Send direct message to user that code is invalid
             await client.chat.postMessage({
                 channel: body.user.id,
-                text: `Sorry, your code is invalid. ${activate.error}`
+                text: `Sorry, your code is invalid. ${license.error}`
             });
         }
     }

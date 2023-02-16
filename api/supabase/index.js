@@ -5,7 +5,7 @@ const supabaseClient = createClient(process.env.SUPABASE_PROJECT_URL, process.en
 module.exports = {
     fetchTeam: async (team_id) => {
         const { data, error } = await supabaseClient
-            .from('users')
+            .from('teams')
             .select()
             .eq('team_id', team_id)
         console.log("[Supabase] fetchTeam", data[0].team_id, data[0].activated, data[0].credit)
@@ -18,12 +18,23 @@ module.exports = {
     },
     upsertTeam: async (payload) => {
         const { data, error } = await supabaseClient
-            .from('users')
+            .from('teams')
             .upsert(payload, { onConflict: 'team_id' })
             .select()
         console.log("[Supabase] upsertTeam", data[0].team_id, data[0].activated, data[0].credit)
         if (data.length === 0 || error) {
             console.log("[Supabase] upsertTeam", error)
+            return data[0];
+        }
+        return data[0];
+    },
+    insertLicense: async (payload) => {
+        const { data, error } = await supabaseClient
+            .from('licenses')
+            .insert(payload)
+        console.log("[Supabase] insertLicense", data[0].variants, data[0].team_id, data[0].user_id)
+        if (data.length === 0 || error) {
+            console.log("[Supabase] insertLicense", error)
             return data[0];
         }
         return data[0];
