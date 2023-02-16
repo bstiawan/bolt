@@ -9,7 +9,7 @@ module.exports = {
                 "emoji": true
             },
             "value": team_id,
-            "url": `${process.env.PAYMENT_PAGE_URL}&team=${team_id}`,
+            "url": `${process.env.PAYMENT_PAGE_URL}`,
             "action_id": "buy_credit"
         }
     },
@@ -23,7 +23,7 @@ module.exports = {
                 "emoji": true
             },
             "value": team_id,
-            "url": `${process.env.PAYMENT_PAGE_URL}&team=${team_id}`,
+            "url": `${process.env.PAYMENT_PAGE_URL}`,
             "action_id": "buy_credit"
         }
     },

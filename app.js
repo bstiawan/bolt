@@ -26,7 +26,8 @@ const app = new App({
 
 (async () => {
   // Start your app
-  await app.start(process.env.PORT || 3000);
+  await app.start(process.env.PORT || 3000, { key: process.env.TLS_PRIVATE_KEY, cert: process.env.TLS_CERT });
+  // https { key: process.env.TLS_PRIVATE_KEY, cert: process.env.TLS_CERT }
 
   console.log('⚡️ Bolt app is running!');
 })();
