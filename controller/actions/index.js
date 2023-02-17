@@ -4,6 +4,7 @@ const { activateTeam } = require('./activateTeam');
 const { applyCredit } = require('./applyCredit');
 const { buyCredit } = require('./buyCredit');
 const { goToAppHome } = require('./goToAppHome');
+const { submitApplyCredit } = require('./submitApplyCredit');
 
 module.exports = {
     replyMessage,
@@ -11,5 +12,6 @@ module.exports = {
     activateTeam,
     applyCredit,
     buyCredit,
-    goToAppHome
+    goToAppHome,
+    submitApplyCredit
 };

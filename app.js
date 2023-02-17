@@ -56,7 +56,7 @@ app.action({ block_id: 'team_action', action_id: 'activate_team' }, actions.acti
 app.action({ block_id: 'team_action', action_id: 'apply_credit' }, actions.applyCredit);
 app.action({ block_id: 'team_action', action_id: 'buy_credit' }, actions.buyCredit);
 app.action({ block_id: 'home_button', action_id: 'go_to_app_home' }, actions.buyCredit);
-// app.action({ block_id: 'message_action', action_id: 'ignore_message' }, actions.ignoreMessage);
+app.action({ block_id: 'apply_credit_input', action_id: 'apply_credit_submit' }, actions.submitApplyCredit);
 
 // // Listens to view submissions
 app.view({ callback_id: "apply_credit" }, views.submitApplyCredit);

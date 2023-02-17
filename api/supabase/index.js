@@ -33,10 +33,10 @@ module.exports = {
             .from('licenses')
             .insert(payload)
         console.log("[Supabase] insertLicense", data)
-        if (data.length === 0 || error) {
+        if (error) {
             console.log("[Supabase] insertLicense", error)
-            return data;
+            return error;
         }
-        return data[0];
+        return data;
     }
 }

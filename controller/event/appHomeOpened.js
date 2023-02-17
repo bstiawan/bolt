@@ -32,14 +32,18 @@ module.exports = {
             }
 
             if (team && team.activated) {
+                const view = home.activeTeam(data);
+                view.private_metadata = JSON.stringify(data);
                 await client.views.publish({
                     user_id: event.user,
-                    view: home.activeTeam(data)
+                    view: view
                 });
             } else if (team && !team.activated) {
+                const view = home.activeTeam(data);
+                view.private_metadata = JSON.stringify(data);
                 await client.views.publish({
                     user_id: event.user,
-                    view: home.inactiveTeam(data)
+                    view: view
                 });
             } else { }
 

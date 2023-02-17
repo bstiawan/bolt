@@ -9,7 +9,7 @@ module.exports = {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `🎉 Your team is activated and you have *${credit}* credits. You can use these credits to ask questions.`
+                        "text": `Your team is activated and you have *${credit}* credits. You can use these credits to ask questions.`
                     }
                 },
                 {
