@@ -14,27 +14,21 @@ module.exports = {
             team_id: body.user.team_id
         };
 
-        try {
-            await client.views.open({
-                // Pass a valid trigger_id within 3 seconds of receiving it
-                trigger_id: body.trigger_id,
-                // View payload
-                view: {
-                    type: 'modal',
-                    callback_id: 'apply_credit',
-                    private_metadata: JSON.stringify(private_metadata),
-                    title: modal.title('Apply Credit'),
-                    blocks: blocks.applyCreditBlocks(body.user.id, body.user.team_id),
-                    close: modal.close('Cancel'),
-                    submit: modal.submit('Apply'),
-                }
-            });
-            logger.info("applyCredit", "Show modal")
-            // logger.info(result);
-        }
-        catch (error) {
-            logger.error(error);
-        }
-
+        await client.views.open({
+            // Pass a valid trigger_id within 3 seconds of receiving it
+            trigger_id: body.trigger_id,
+            // View payload
+            view: {
+                type: 'modal',
+                callback_id: 'apply_credit',
+                private_metadata: JSON.stringify(private_metadata),
+                title: modal.title('Apply Credit'),
+                blocks: blocks.applyCreditBlocks(body.user.id, body.user.team_id),
+                close: modal.close('Cancel'),
+                submit: modal.submit('Apply'),
+            }
+        });
+        logger.info("applyCredit", "Show modal")
+        // logger.info(result);
     }
 }

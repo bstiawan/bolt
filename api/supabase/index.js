@@ -32,10 +32,10 @@ module.exports = {
         const { data, error } = await supabaseClient
             .from('licenses')
             .insert(payload)
-        console.log("[Supabase] insertLicense", data[0].variants, data[0].team_id, data[0].user_id)
+        console.log("[Supabase] insertLicense", data)
         if (data.length === 0 || error) {
             console.log("[Supabase] insertLicense", error)
-            return data[0];
+            return data;
         }
         return data[0];
     }

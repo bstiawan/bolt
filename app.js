@@ -25,8 +25,10 @@ const app = new App({
 });
 
 (async () => {
+  // SSL in production
+  const ssl = process.env.NODE_ENV === 'production' ? { key: process.env.TLS_PRIVATE_KEY, cert: process.env.TLS_CERT } : undefined;
   // Start your app
-  await app.start(process.env.PORT || 3000, { key: process.env.TLS_PRIVATE_KEY, cert: process.env.TLS_CERT });
+  await app.start(process.env.PORT || 3000, ssl);
   // https { key: process.env.TLS_PRIVATE_KEY, cert: process.env.TLS_CERT }
 
   console.log('⚡️ Bolt app is running!');

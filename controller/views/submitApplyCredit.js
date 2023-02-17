@@ -17,6 +17,8 @@ module.exports = {
         const license = await gumroad.verifyLicense(key, team);
         // Retrieve licence key
 
+        // TODO: Check if this user already get free credit
+
         // If activated
         if (license.uses === 1) {
 
@@ -24,7 +26,7 @@ module.exports = {
             const user = await supabase.fetchTeam(team);
 
             //Upsert team credit
-            const credit = license.meta.variant_name.replace('(', '').split(" ")[0];
+            const credit = license.purchase.variants.replace('(', '').split(" ")[0];
             const upsert = await supabase.upsertTeam({
                 team_id: team,
                 domain: domain,
@@ -45,11 +47,11 @@ module.exports = {
                 channel: body.user.id,
                 text: `:tada: Your code has been successfully applied! You now have ${upsert.credit} credits.`
             });
-        } else {
+        } else if (license.uses > 1) {
             // Send direct message to user that code is invalid
             await client.chat.postMessage({
                 channel: body.user.id,
-                text: `Sorry, your code is invalid. ${license.error}`
+                text: `Sorry, your code has been used already.`
             });
         }
     }

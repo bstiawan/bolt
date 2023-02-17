@@ -16,7 +16,7 @@ module.exports = {
                     "product_id": process.env.PAYMENT_PRODUCT_ID
                 },
             });
-            console.log("[Gumroad] License verify", response.data.purchase.variants, response.data.purchase.email)
+            console.log("[Gumroad] License verify", response.data.purchase.variants, response.data.purchase.email, response.data.uses)
             return response.data;
         } catch (error) {
             // console.error(error.response.data);
