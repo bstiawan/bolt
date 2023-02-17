@@ -9,21 +9,14 @@ module.exports = {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `Hi <@${user}> :wave:`
+                        "text": `Hi <@${user}> :wave:\n\n`
                     }
                 },
                 {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": "Great to see you here! \nWhatGPT allows you to ask question directly in Slack and get answer. These are just a few things which you will be able to do:"
-                    }
-                },
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": "• Mention @WhatGPT in a public channel and get answer \n • Send direct message and get answer"
+                        "text": "WhatGPT is designed to help you get instant answers to any question and make requests right from your Slack messages. We bring you AI-powered technology that can understand and easily process your questions and requests. Get answers quickly and make your Slack workspace more interactive and efficient. Try it out and see how much easier your conversations will become!"
                     }
                 },
                 {

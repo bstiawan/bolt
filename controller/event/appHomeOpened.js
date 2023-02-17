@@ -31,15 +31,10 @@ module.exports = {
                 credit: team.credit
             }
 
-            if (team && team.activated && team.credit > 0) {
+            if (team && team.activated) {
                 await client.views.publish({
                     user_id: event.user,
                     view: home.activeTeam(data)
-                });
-            } else if (team && team.activated && team.credit <= 0) {
-                await client.views.publish({
-                    user_id: event.user,
-                    view: home.activeNoCreditTeam(data)
                 });
             } else if (team && !team.activated) {
                 await client.views.publish({

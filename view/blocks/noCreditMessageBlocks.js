@@ -12,10 +12,20 @@ module.exports = {
             },
             {
                 "type": "actions",
-                "block_id": "team_action",
+                "block_id": "home_button",
                 "elements": [
-                    button.buyCreditButton(team_id),
-                    button.applyCreditButton(team_id)
+                    {
+                        "type": "button",
+                        "style": "primary",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Go to home page",
+                            "emoji": true
+                        },
+                        "value": team_id,
+                        "action_id": "go_to_app_home",
+                        "url": `slack://app?team=${team_id}&id=${process.env.SLACK_APP_ID}&tab=home`
+                    }
                 ]
             }
         ]

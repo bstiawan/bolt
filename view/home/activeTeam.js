@@ -9,39 +9,96 @@ module.exports = {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `Hi <@${user}> :wave:`
+                        "text": `🎉 Your team is activated and you have *${credit}* credits. You can use these credits to ask questions.`
                     }
                 },
                 {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": "Great to see you here! \nWhatGPT allows you to ask question directly in Slack and get answer. These are just a few things which you will be able to do:"
-                    }
-                },
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": "• Mention @WhatGPT in a public channel and get answer \n • Send direct message and get answer"
+                    "dispatch_action": true,
+                    "type": "input",
+                    "block_id": "apply_credit_input",
+                    "label": {
+                        "type": "plain_text",
+                        "text": "Have license key? Insert below to apply the credits."
+                    },
+                    "element": {
+                        "type": "plain_text_input",
+                        "multiline": false,
+                        "action_id": "apply_credit_submit"
                     }
                 },
                 {
                     "type": "divider"
                 },
                 {
+                    "type": "context",
+                    "elements": [
+                        {
+                            "type": "image",
+                            "image_url": "https://api.slack.com/img/blocks/bkb_template_images/placeholder.png",
+                            "alt_text": "placeholder"
+                        }
+                    ]
+                },
+                {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `🎉 Your team is activated and you have *${credit}* credits. You can use these credits to ask questions. You can buy more credits and apply it below.`
+                        "text": "*Users using WhatGPT credits*"
+                    }
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "context",
+                    "elements": [
+                        {
+                            "type": "image",
+                            "image_url": "https://api.slack.com/img/blocks/bkb_template_images/profile_3.png",
+                            "alt_text": "Dwight Schrute"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Dwight Schrute*"
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "Private message: *13 questions*\nChannel message: *9 questions*"
+                    }
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "context",
+                    "elements": [
+                        {
+                            "type": "image",
+                            "image_url": "https://api.slack.com/img/blocks/bkb_template_images/profile_2.png",
+                            "alt_text": "Pam Beasely"
+                        },
+                        {
+                            "type": "mrkdwn",
+                            "text": "*Pam Beasely*"
+                        }
+                    ]
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "Private message: *13 questions*\nChannel message: *9 questions*"
                     }
                 },
                 {
                     "type": "actions",
                     "block_id": "team_action",
                     "elements": [
-                        button.buyMoreCreditButton(team_id),
-                        button.applyCreditButton(team_id),
+                        button.buyMoreCreditButton(team_id)
                     ]
                 }
             ]
