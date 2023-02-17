@@ -9,7 +9,7 @@ module.exports = {
 
         try {
             const user = await supabase.fetchTeam(auth.team_id);
-            console.log(user)
+            // console.log(user)
 
             if (!user) {
                 // Team hasn't been activated

@@ -20,8 +20,8 @@ module.exports = {
             return response.data;
         } catch (error) {
             // console.error(error.response.data);
-            console.log("[Gumroad] Error", error.response.data.error)
-            return error.response.data;
+            console.log("[Gumroad] Error", error.response.message)
+            return error.response.message;
         }
     },
 }
