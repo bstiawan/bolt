@@ -19,10 +19,9 @@ module.exports = {
         const license = await gumroad.verifyLicense(key, team);
         // Retrieve licence key
 
-        // TODO: Check if this user already get free credit
-
         // If activated
         if (license.success && license.uses === 1) {
+            // TODO: Check if this user already get free credit
 
             // Retrieve team from database
             const user = await supabase.fetchTeam(team);
@@ -42,6 +41,8 @@ module.exports = {
                 variants: license.purchase.variants,
                 team_id: team,
                 user_id: body.user.id,
+                price: license.purchase.price,
+                currency: license.purchase.currency,
             });
 
             // Construct the view

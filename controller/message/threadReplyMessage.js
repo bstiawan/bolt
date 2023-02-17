@@ -1,5 +1,4 @@
 const openai = require('../../api/openai');
-const message = require('../../view/message');
 
 module.exports = {
     threadReplyMessage: async ({ event, say, logger, body, client }) => {

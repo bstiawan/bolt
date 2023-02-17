@@ -1,5 +1,4 @@
 const openai = require('../../api/openai');
-const message = require('../../view/message');
 
 module.exports = {
     appMention: async ({ event, say, logger, body }) => {

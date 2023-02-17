@@ -21,7 +21,7 @@ module.exports = {
             // console.info("[OpenAI]", text)
             const completion = await openai.createCompletion({
                 model: "text-davinci-003",
-                prompt: "Act as a person with super accurate knowledge based on facts. Answer questions given with interactive, casual and sometimes joking." + text + "Your answer:",
+                prompt: "You are a person with super accurate knowledge based on facts. Answer questions given with interactive, casual and sometimes joking." + text + "Your answer:",
                 max_tokens: 300,
                 user: `${body.team_id}/${body.event.user}`,
             });
@@ -32,6 +32,15 @@ module.exports = {
             // Continue deduct 1 credit
             console.log("[OpenAI]", body.auth.team_id, 'deduct', 1)
             await supabase.upsertTeam({ team_id: body.auth.team_id, credit: credit - 1 });
+
+            await supabase.insertQuestion({
+                team_id: body.auth.team_id,
+                user_id: body.event.user,
+                question: body.event.text,
+                answer: reply,
+                tokens: completion.data.usage.total_tokens,
+                thread_ts: body.event.thread_ts || body.event.ts,
+            });
             return message.answerMessage(ts, reply);
         } else {
             return message.noCreditMessage(ts, "Sorry, you don't have enough credit", body.team_id);

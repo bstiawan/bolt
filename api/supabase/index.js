@@ -38,5 +38,16 @@ module.exports = {
             return error;
         }
         return data;
+    },
+    insertQuestion: async (payload) => {
+        const { data, error } = await supabaseClient
+            .from('questions')
+            .insert(payload)
+        console.log("[Supabase] insertQuestion", data)
+        if (error) {
+            console.log("[Supabase] insertQuestion", error)
+            return error;
+        }
+        return data;
     }
 }
