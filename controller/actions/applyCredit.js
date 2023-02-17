@@ -23,7 +23,15 @@ module.exports = {
                 callback_id: 'apply_credit',
                 private_metadata: JSON.stringify(private_metadata),
                 title: modal.title('Apply Credit'),
-                blocks: blocks.applyCreditBlocks(body.user.id, body.user.team_id),
+                blocks: [
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "Now loading..."
+                        }
+                    }
+                ],
                 close: modal.close('Cancel'),
                 submit: modal.submit('Apply'),
             }
