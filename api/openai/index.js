@@ -15,7 +15,9 @@ module.exports = {
 
         const credit = body.auth.credit;
 
-        if (credit > 0) {
+        if (!body.auth.activated) {
+            return message.noCreditMessage(ts, "Sorry, you haven't activated the app yet", body.team_id);
+        } else if (body.auth.activated && credit > 0) {
 
             // Send request to OpenAI
             // console.info("[OpenAI]", text)
@@ -43,7 +45,7 @@ module.exports = {
                 user_name: body.event.user_name,
             });
             return message.answerMessage(ts, reply);
-        } else {
+        } else if (body.auth.activated && credit <= 0) {
             return message.noCreditMessage(ts, "Sorry, you don't have enough credit", body.team_id);
         }
     }

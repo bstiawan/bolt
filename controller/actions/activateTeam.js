@@ -14,6 +14,26 @@ module.exports = {
         });
         logger.info("bot", bot.bot.id, bot.bot.name, bot.bot.user_id);
 
+        // TODO: Update the views for loading screen first
+        // Construct the view
+        const activeTeam = home.inactiveTeam(body);
+        activeTeam.blocks.push({
+            "type": "context",
+            "elements": [
+                {
+                    "type": "plain_text",
+                    "text": "⌛ Activating... This may take a few seconds",
+                    "emoji": true
+                }
+            ]
+        })
+
+        await client.views.publish({
+            user_id: body.user.id,
+            view: activeTeam
+        });
+
+        // Update the database
         const upsert = await supabase.upsertTeam({
             team_id: body.user.team_id,
             activated: true,
