@@ -19,13 +19,14 @@ module.exports = {
         if (access.ok) {
             // Store the token in a database
             console.log("access", access)
-            // await supabase.upsertTeam({
-            //     team_id: access.team.id,
-            //     access_token: access.access_token,
-            //     app_id: access.app_id,
-            //     bot_user_id: access.bot_user_id,
-            //     team_name: access.team.name,
-            // });
+
+            const upsert = await supabase.upsertTeam({
+                team_id: access.team.id,
+                access_token: access.access_token,
+                app_id: access.app_id,
+                bot_user_id: access.bot_user_id,
+                team_name: access.team.name,
+            });
 
             res.redirect(`https://slack.com/app_redirect?app=${process.env.SLACK_APP_ID}&team=${access.team.id}`)
         }
