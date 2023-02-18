@@ -2,7 +2,6 @@ const openai = require('../../api/openai');
 
 module.exports = {
     threadReplyMessage: async ({ event, say, logger, body, client }) => {
-        logger.info("threadReplyMessage", event.type, event.text);
         const bot_user_id = body.auth.bot_user_id;
 
         // Get the message from the thread
@@ -18,6 +17,7 @@ module.exports = {
 
         // TODO: Check if the first message mentions the bot
         if (conversations[0].includes(`<@${bot_user_id}>`)) {
+            logger.info("threadReplyMessage", event.type, event.text);
 
             // Request completion from openai
             const response = await openai.completion(conversations.join('\n\n'), body);

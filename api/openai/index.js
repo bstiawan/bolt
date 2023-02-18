@@ -40,6 +40,7 @@ module.exports = {
                 answer: reply,
                 tokens: completion.data.usage.total_tokens,
                 thread_ts: body.event.thread_ts || body.event.ts,
+                user_name: body.event.user_name,
             });
             return message.answerMessage(ts, reply);
         } else {
