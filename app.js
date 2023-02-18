@@ -77,6 +77,8 @@ const app = new App({
       throw new Error('Failed to delete installation');
     }
   },
+  receiver,
+  logLevel: LogLevel.INFO,
 });
 
 (async () => {
