@@ -8,10 +8,20 @@ module.exports = {
         await ack();
         logger.info('activateTeam', body.user.team_id);
 
+        // TODO: Get app bot.info and store it in database
+        const bot = await client.bots.info({
+            bot: body.view.bot_id
+        });
+        logger.info("bot", bot.bot.id, bot.bot.name, bot.bot.user_id);
+
         const upsert = await supabase.upsertTeam({
             team_id: body.user.team_id,
             activated: true,
-            credit: +10
+            credit: +10,
+            bot_id: bot.bot.id,
+            bot_user_id: bot.bot.user_id,
+            app_id: bot.bot.app_id,
+            activated_by: body.user.id,
         });
 
         const data = {

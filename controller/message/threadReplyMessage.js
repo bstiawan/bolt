@@ -3,6 +3,7 @@ const openai = require('../../api/openai');
 module.exports = {
     threadReplyMessage: async ({ event, say, logger, body, client }) => {
         logger.info("threadReplyMessage", event.type, event.text);
+        const bot_user_id = body.auth.bot_user_id;
 
         // Get the message from the thread
         const replies = await client.conversations.replies({
@@ -13,16 +14,21 @@ module.exports = {
         const conversations = replies.messages.map((reply) => {
             return `${reply.text}`;
         });
+        // logger.info("threadReplyMessage", conversations[0]);
 
-        // Request completion from openai
-        const response = await openai.completion(conversations.join('\n\n'), body);
+        // TODO: Check if the first message mentions the bot
+        if (conversations[0].includes(`<@${bot_user_id}>`)) {
 
-        // logger.info("threadReplyMessage", response);
-        try {
-            await say(response);
+            // Request completion from openai
+            const response = await openai.completion(conversations.join('\n\n'), body);
+
+            // logger.info("threadReplyMessage", response);
+            try {
+                await say(response);
+            }
+            catch (error) {
+                console.error(error);
+            };
         }
-        catch (error) {
-            console.error(error);
-        };
     },
 }
