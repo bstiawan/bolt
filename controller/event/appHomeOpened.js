@@ -8,7 +8,7 @@ module.exports = {
         // logger.info(body)
 
         if (event.tab === 'home' && !body.auth.activated) {
-            logger.info("appHomeOpened", "Inactive user", event.user)
+            logger.info("appHomeOpened", "Inactive team", event.user)
             // New user here
 
             // Add inactive user to supabase

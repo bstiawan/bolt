@@ -7,6 +7,7 @@ const views = require('./controller/views');
 const message = require('./controller/message');
 const webhook = require('./controller/webhook');
 const event = require('./controller/event');
+const auth = require('./controller/auth');
 
 const middleware = require('./middleware');
 
@@ -16,12 +17,21 @@ receiver.router.use(bodyParser.urlencoded({ extended: true }))
 receiver.router.use(bodyParser.json())
 
 // Initializes your app with your bot token and signing secret
+// const app = new App({
+//   token: process.env.SLACK_BOT_TOKEN,
+//   signingSecret: process.env.SLACK_SIGNING_SECRET,
+//   socketMode: false,
+//   logLevel: LogLevel.INFO,
+//   receiver
+// });
+
 const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
-  socketMode: false,
-  logLevel: LogLevel.INFO,
-  receiver
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: 'whaaaaaat',
+  scopes: ['app_mentions:read', 'channels:history', 'chat:write', 'groups:history', 'im:history', 'mpim:history', 'users:read'],
+  installationStore: auth.install,
 });
 
 (async () => {

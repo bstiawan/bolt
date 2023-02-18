@@ -50,5 +50,27 @@ module.exports = {
             return error;
         }
         return data;
+    },
+    uploadFile: async (payload) => {
+        const { data, error } = await supabaseClient
+            .storage
+            .from('installation')
+            .upload(`${payload.team.id}.json`, payload, {
+                cacheControl: '3600',
+                upsert: true
+            })
+        return data;
+    },
+    fetchFile: async (team_id) => {
+        const { data, error } = await supabaseClient
+            .storage.from('installation')
+            .download(`${team_id}.json`)
+        return data;
+    },
+    deleteFile: async (team_id) => {
+        const { data, error } = await supabaseClient
+            .storage.from('installation')
+            .remove([`${team_id}.json`])
+        return data;
     }
 }
