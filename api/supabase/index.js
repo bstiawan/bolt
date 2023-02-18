@@ -8,25 +8,26 @@ module.exports = {
             .from('teams')
             .select()
             .eq('team_id', team_id)
-        console.log("[Supabase] fetchTeam", data[0].team_id, data[0].activated, data[0].credit)
-
-        if (data.length === 0 || error) {
+        if (data.length > 0) {
+            console.log("[Supabase] fetchTeam", data[0].team_id, data[0].activated, data[0].credit)
+            return data[0];
+        } else if (data.length === 0 || error) {
             console.log("[Supabase] fetchTeam", error)
             return data[0];
         }
-        return data[0];
     },
     upsertTeam: async (payload) => {
         const { data, error } = await supabaseClient
             .from('teams')
             .upsert(payload, { onConflict: 'team_id' })
             .select()
-        console.log("[Supabase] upsertTeam", data[0].team_id, data[0].activated, data[0].credit)
-        if (data.length === 0 || error) {
+        if (data.length > 0) {
+            console.log("[Supabase] upsertTeam", data[0].team_id, data[0].activated, data[0].credit)
+            return data[0];
+        } else if (data.length === 0 || error) {
             console.log("[Supabase] upsertTeam", error)
             return data[0];
         }
-        return data[0];
     },
     insertLicense: async (payload) => {
         const { data, error } = await supabaseClient
