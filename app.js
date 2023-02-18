@@ -91,7 +91,7 @@ const app = new App({
 
 // Listens to incoming webhooks
 receiver.router.get('/', (req, res) => { res.end('Ok'); });
-receiver.router.post('/install', (req, res) => { res.redirect('https://slack.com/oauth?client_id=2956185620868.4816317866176&scope=app_mentions%3Aread%2Cchannels%3Ahistory%2Cchat%3Awrite%2Cgroups%3Ahistory%2Cim%3Ahistory%2Cmpim%3Ahistory&user_scope=&redirect_uri=&state=&granular_bot_scope=1&single_channel=0&install_redirect=&tracked=1&team=') });
+receiver.router.get('/install', (req, res) => { res.redirect('https://slack.com/oauth?client_id=2956185620868.4816317866176&scope=app_mentions%3Aread%2Cchannels%3Ahistory%2Cchat%3Awrite%2Cgroups%3Ahistory%2Cim%3Ahistory%2Cmpim%3Ahistory&user_scope=&redirect_uri=&state=&granular_bot_scope=1&single_channel=0&install_redirect=&tracked=1&team=') });
 receiver.router.get('/auth', (req, res) => { webhook.authRedirect(req, res, app) });
 
 // // Listens to incoming messages
