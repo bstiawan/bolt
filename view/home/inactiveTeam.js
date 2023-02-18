@@ -9,7 +9,7 @@ module.exports = {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `Hi <@${body.user.id}> :wave:\n\n`
+                        "text": `Hi <@${body.event.user}> :wave:\n\n`
                     }
                 },
                 {
