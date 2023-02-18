@@ -5,7 +5,7 @@ module.exports = {
         const message = {
             thread_ts: ts,
             text: text,
-            blocks: blocks.noCreditMessageBlocks(team_id)
+            blocks: blocks.noCreditMessageBlocks(text, team_id)
         }
         return message;
     }

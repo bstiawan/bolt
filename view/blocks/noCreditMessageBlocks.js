@@ -1,13 +1,13 @@
 const button = require('../button');
 
 module.exports = {
-    noCreditMessageBlocks: (team_id) => {
+    noCreditMessageBlocks: (text, team_id) => {
         const blocks = [
             {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "The remaining credit for this team is 0. Go to home page to get more credit."
+                    "text": text
                 }
             },
             {

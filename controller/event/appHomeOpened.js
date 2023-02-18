@@ -5,7 +5,7 @@ const home = require('../../view/home');
 module.exports = {
     appHomeOpened: async ({ event, logger, body, client }) => {
         logger.info("appHomeOpened", event.type, event.tab);
-        // logger.info(body)
+        logger.info(body)
 
         if (event.tab === 'home' && !body.auth.activated) {
             logger.info("appHomeOpened", "Inactive user", event.user)
