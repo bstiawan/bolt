@@ -43,7 +43,7 @@ app.message(middleware.noOrphanMessage, middleware.authentication, message.messa
 
 // Listens to events
 app.event('app_mention', middleware.authentication, event.appMention);
-app.event('app_home_opened', event.appHomeOpened);
+app.event('app_home_opened', middleware.authentication, event.appHomeOpened);
 app.event('app_uninstalled', middleware.authentication, event.appUninstalled);
 
 // Listens to errors

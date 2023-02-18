@@ -7,8 +7,8 @@ module.exports = {
         logger.info("appHomeOpened", event.type, event.tab);
         // logger.info(body)
 
-        if (event.tab === 'home' && event.view === undefined) {
-            logger.info("appHomeOpened", "new user", event.user)
+        if (event.tab === 'home' && !body.auth.activated) {
+            logger.info("appHomeOpened", "Inactive user", event.user)
             // New user here
 
             // Add inactive user to supabase
@@ -20,34 +20,20 @@ module.exports = {
                 view: home.inactiveTeam(body)
             });
 
-        } else if (event.tab === 'home' && event.view) {
-
-            // Check if user is active
-            const team = await supabase.fetchTeam(body.team_id);
+        } else if (event.tab === 'home' && body.auth.activated) {
 
             const data = {
                 user: event.user,
                 team_id: body.team_id,
-                credit: team.credit
+                credit: body.auth.credit
             }
 
-            if (team && team.activated) {
-                const view = home.activeTeam(data);
-                view.private_metadata = JSON.stringify(data);
-                await client.views.publish({
-                    user_id: event.user,
-                    view: view
-                });
-            } else if (team && !team.activated) {
-                const view = home.activeTeam(data);
-                view.private_metadata = JSON.stringify(data);
-                await client.views.publish({
-                    user_id: event.user,
-                    view: view
-                });
-            } else { }
-
-
+            const view = home.activeTeam(data);
+            view.private_metadata = JSON.stringify(data);
+            await client.views.publish({
+                user_id: event.user,
+                view: view
+            });
         }
     }
 };
