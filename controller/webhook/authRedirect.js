@@ -22,7 +22,7 @@ module.exports = {
 
             const upsert = await supabase.upsertTeam({
                 team_id: access.team.id,
-                access_token: access.access_token,
+                slack_bot_token: access.access_token,
                 app_id: access.app_id,
                 bot_user_id: access.bot_user_id,
                 team_name: access.team.name,
