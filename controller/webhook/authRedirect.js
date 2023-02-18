@@ -7,7 +7,7 @@ module.exports = {
         const data = req.params;
 
         // Exchange oauth code for access token
-        const access = app.client.oauth.v2.access({
+        const access = await app.client.oauth.v2.access({
             // The code param is returned via the redirect from the Slack OAuth flow
             code: data.code,
             // This is the same as verification token in your App config
