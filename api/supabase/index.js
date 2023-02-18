@@ -57,7 +57,8 @@ module.exports = {
             .from('installation')
             .upload(`${payload.team.id}.json`, payload, {
                 cacheControl: '3600',
-                upsert: true
+                upsert: true,
+                contentType: 'application/json'
             })
         if (!error) {
             console.log("[Supabase] uploadFile", data)
