@@ -36,7 +36,7 @@ const app = new App({
 
 // Listens to incoming webhooks
 receiver.router.get('/', (req, res) => { res.end('Ok'); });
-receiver.router.get('/auth', (req, res) => { res.end('Ok'); webhook.authRedirect(req, res, app) });
+receiver.router.get('/auth', (req, res) => { webhook.authRedirect(req, res, app) });
 
 // // Listens to incoming messages
 app.message(middleware.noOrphanMessage, middleware.authentication, message.messageRouter);
