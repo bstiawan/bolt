@@ -14,7 +14,7 @@ module.exports = {
         } else if (!event.thread_ts && event.channel_type === 'im') { // If it's a direct message
             eventController.appMention({ event, say, logger, body });
         } else {
-            // logger.info(body);
+            logger.info("messageRouter", "Not routed");
         }
     },
     messageFromPartner
