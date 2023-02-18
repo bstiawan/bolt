@@ -15,7 +15,7 @@ module.exports = {
             await supabase.upsertTeam({ team_id: body.team_id });
 
             // Publish the inactive home tab
-            body.event.user = event.user;
+            body.user.id = event.user;
             await client.views.publish({
                 user_id: event.user,
                 view: home.inactiveTeam(body)
