@@ -20,7 +20,7 @@ module.exports = {
                 body.user.id = event.user;
             }
             await client.views.publish({
-                user_id: event.user,
+                user_id: body.user.id,
                 view: home.inactiveTeam(body)
             });
 
