@@ -7,6 +7,7 @@ module.exports = {
         // Acknowledge the action
         await ack();
         logger.info('activateTeam', body.user.team_id);
+        logger.info(body)
 
         // TODO: Get app bot.info and store it in database
         const bot = await client.bots.info({
