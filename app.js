@@ -1,4 +1,5 @@
 const { App, LogLevel, ExpressReceiver } = require('@slack/bolt');
+const { FileInstallationStore } = require('@slack/oauth');
 const bodyParser = require('body-parser')
 require('dotenv').config();
 
