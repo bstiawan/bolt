@@ -1,7 +1,7 @@
 const button = require('../button');
 
 module.exports = {
-    inactiveTeam: ({ user, team_id, credit }) => {
+    inactiveTeam: (body) => {
         return {
             "type": "home",
             "blocks": [
@@ -9,7 +9,7 @@ module.exports = {
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": `Hi <@${user}> :wave:\n\n`
+                        "text": `Hi <@${body.event.user}> :wave:\n\n`
                     }
                 },
                 {
@@ -33,7 +33,7 @@ module.exports = {
                     "type": "actions",
                     "block_id": "team_action",
                     "elements": [
-                        button.activateTeamButton(team_id),
+                        button.activateTeamButton(body.team_id),
                     ]
                 }
             ]
