@@ -37,6 +37,7 @@ const app = new App({
 // Listens to incoming webhooks
 receiver.router.get('/', (req, res) => { res.end('Ok'); });
 receiver.router.post('/webhook/lemonsqueezy', (req, res) => { res.end('Ok'); webhook.lemonSqueezy(req, app) });
+receiver.router.post('/auth', (req, res) => { res.end('Ok'); console.log(req.body) });
 
 // // Listens to incoming messages
 app.message(middleware.noOrphanMessage, middleware.authentication, message.messageRouter);
