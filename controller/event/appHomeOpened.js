@@ -5,7 +5,7 @@ const home = require('../../view/home');
 module.exports = {
     appHomeOpened: async ({ event, logger, body, client }) => {
         logger.info("appHomeOpened", event.type, event.tab);
-        // logger.info(body)
+        logger.info(body)
 
         if (event.tab === 'home' && !body.auth.activated) {
             logger.info("appHomeOpened", "Inactive user", event.user)
@@ -15,7 +15,7 @@ module.exports = {
             await supabase.upsertTeam({ team_id: body.team_id });
 
             // Publish the inactive home tab
-            body.user.id = event.user || body.user.id;
+            body.user.id === undefined ? event.user : body.user.id;
             await client.views.publish({
                 user_id: event.user,
                 view: home.inactiveTeam(body)
