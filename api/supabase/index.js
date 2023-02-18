@@ -59,18 +59,27 @@ module.exports = {
                 cacheControl: '3600',
                 upsert: true
             })
-        return data;
+        if (!error) {
+            console.log("[Supabase] uploadFile", data)
+            return data;
+        }
     },
     fetchFile: async (team_id) => {
         const { data, error } = await supabaseClient
             .storage.from('installation')
             .download(`${team_id}.json`)
-        return data;
+        if (!error) {
+            console.log("[Supabase] fetchFile", data)
+            return data;
+        }
     },
     deleteFile: async (team_id) => {
         const { data, error } = await supabaseClient
             .storage.from('installation')
             .remove([`${team_id}.json`])
-        return data;
+        if (!error) {
+            console.log("[Supabase] deleteFile", data)
+            return data;
+        }
     }
 }
