@@ -5,6 +5,7 @@ module.exports = {
         app.logger.info("authRedirect", req.url)
 
         const data = req.params;
+        console.log("data", data)
 
         // Exchange oauth code for access token
         const access = await app.client.oauth.v2.access({
