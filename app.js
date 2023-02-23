@@ -1,4 +1,5 @@
-const { App, LogLevel, ExpressReceiver } = require('@slack/bolt');
+const { App, LogLevel } = require('@slack/bolt');
+const { FileInstallationStore } = require('@slack/oauth');
 const bodyParser = require('body-parser')
 require('dotenv').config();
 
@@ -12,73 +13,35 @@ const auth = require('./controller/auth');
 const middleware = require('./middleware');
 
 const supabase = require('./api/supabase');
+const scopes = ['app_mentions:read', 'channels:history', 'chat:write', 'groups:history', 'im:history', 'mpim:history', 'users:read'];
 
-// Handles custom routes
-const receiver = new ExpressReceiver({ signingSecret: process.env.SLACK_SIGNING_SECRET })
-receiver.router.use(bodyParser.urlencoded({ extended: true }))
-receiver.router.use(bodyParser.json())
-
-// Initializes your app with your bot token and signing secret
-// const app = new App({
-//   token: process.env.SLACK_BOT_TOKEN,
-//   signingSecret: process.env.SLACK_SIGNING_SECRET,
-//   socketMode: false,
-//   logLevel: LogLevel.INFO,
-//   receiver
-// });
-
+// Authentication
 const app = new App({
+  LogLevel: LogLevel.DEBUG,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'whaaat',
-  scopes: ['app_mentions:read', 'channels:history', 'chat:write', 'groups:history', 'im:history', 'mpim:history', 'users:read'],
-  installationStore: {
-    storeInstallation: async (installation) => {
-      // Bolt will pass your handler an installation object
-      // Change the lines below so they save to your database
-      if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
-        // handle storing org-wide app installation
-        console.log("storeInstallation", "isEnterpriseInstall", installation.enterprise.id)
-        // return await database.set(installation.enterprise.id, installation);
-      }
-      if (installation.team !== undefined) {
-        // single team app installation
-        return await supabase.uploadFile(installation);
-      }
-      throw new Error('Failed saving installation data to installationStore');
+  stateSecret: process.env.SLACK_STATE_SECRET,
+  scopes: scopes,
+  installationStore: new FileInstallationStore(),
+  customRoutes: [
+    {
+      path: '/',
+      method: ['GET'],
+      handler: (req, res) => {
+        res.writeHead(200);
+        res.end('Ok!');
+      },
     },
-    fetchInstallation: async (installQuery) => {
-      // Bolt will pass your handler an installQuery object
-      // Change the lines below so they fetch from your database
-      if (installQuery.isEnterpriseInstall && installQuery.enterpriseId !== undefined) {
-        // handle org wide app installation lookup
-        console.log("fetchInstallation", "isEnterpriseInstall", installQuery.enterpriseId)
-        // return await database.get(installQuery.enterpriseId);
-      }
-      if (installQuery.teamId !== undefined) {
-        // single team app installation lookup
-        return await supabase.fetchFile(installQuery.teamId);
-      }
-      throw new Error('Failed fetching installation');
+    {
+      path: '/install',
+      method: ['GET'],
+      handler: (req, res) => {
+        res.writeHead(200);
+        // res.redirect(`https://slack.com/oauth?client_id=${process.env.SLACK_CLIENT_ID}&scope=${encodeURIComponent(scopes)}&user_scope=&redirect_uri=&state=${process.env.SLACK_STATE_SECRET}&granular_bot_scope=1&single_channel=0&install_redirect=&tracked=1&team=`);
+      },
     },
-    deleteInstallation: async (installQuery) => {
-      // Bolt will pass your handler  an installQuery object
-      // Change the lines below so they delete from your database
-      if (installQuery.isEnterpriseInstall && installQuery.enterpriseId !== undefined) {
-        // org wide app installation deletion
-        console.log("deleteInstallation", "isEnterpriseInstall", installQuery.enterpriseId)
-        // return await database.delete(installQuery.enterpriseId);
-      }
-      if (installQuery.teamId !== undefined) {
-        // single team app installation deletion
-        return await supabase.deleteFile(installQuery.teamId);
-      }
-      throw new Error('Failed to delete installation');
-    }
-  },
-  receiver,
-  logLevel: LogLevel.INFO,
+  ],
 });
 
 (async () => {
@@ -90,11 +53,6 @@ const app = new App({
 
   console.log('⚡️ Bolt app is running!');
 })();
-
-// Listens to incoming webhooks
-receiver.router.get('/', (req, res) => { res.end('Ok'); });
-receiver.router.get('/install', (req, res) => { res.redirect('https://slack.com/oauth?client_id=2956185620868.4816317866176&scope=app_mentions%3Aread%2Cchannels%3Ahistory%2Cchat%3Awrite%2Cgroups%3Ahistory%2Cim%3Ahistory%2Cmpim%3Ahistory&user_scope=&redirect_uri=&state=&granular_bot_scope=1&single_channel=0&install_redirect=&tracked=1&team=') });
-receiver.router.get('/auth', (req, res) => { webhook.authRedirect(req, res, app) });
 
 // // Listens to incoming messages
 app.message(middleware.noOrphanMessage, middleware.authentication, message.messageRouter);

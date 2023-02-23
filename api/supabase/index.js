@@ -55,7 +55,7 @@ module.exports = {
         const { data, error } = await supabaseClient
             .storage
             .from('installation')
-            .upload(`${payload.team.id}.json`, payload, {
+            .upload(`${payload.team.id}.json`, JSON.stringify(payload), {
                 cacheControl: '3600',
                 upsert: true,
                 contentType: 'application/json'
@@ -70,8 +70,8 @@ module.exports = {
             .storage.from('installation')
             .download(`${team_id}.json`)
         if (!error) {
-            console.log("[Supabase] fetchFile", data)
-            return data;
+            console.log("[Supabase] fetchFile", JSON.parse(data))
+            return JSON.parse(data);
         }
     },
     deleteFile: async (team_id) => {
