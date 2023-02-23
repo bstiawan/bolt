@@ -16,7 +16,7 @@ module.exports = {
         // logger.info("threadReplyMessage", conversations[0]);
 
         // TODO: Check if the first message mentions the bot
-        if (conversations[0].includes(`<@${bot_user_id}>`)) {
+        if (conversations[0].includes(`<@${bot_user_id}>`) || event.channel_type === 'im') {
             logger.info("threadReplyMessage", event.type, event.text);
 
             // Request completion from openai
